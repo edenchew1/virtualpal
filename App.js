@@ -9,6 +9,7 @@ import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ChatScreen from "./screens/ChatScreen";
+import QuestionnaireScreen from "./screens/QuestionnaireScreen";
 
 import * as firebase from "firebase";
 
@@ -35,6 +36,14 @@ const AppTabNavigator = createBottomTabNavigator(
     },
     Chat: {
       screen: ChatScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-chatboxes" size={24} color={tintColor} />
+        ),
+      },
+    },
+    Questionnaire: {
+      screen: QuestionnaireScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-chatboxes" size={24} color={tintColor} />
