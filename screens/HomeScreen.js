@@ -25,12 +25,19 @@ export default class HomeScreen extends React.Component {
     firebase.auth().signOut();
   };
 
+  editProfile = () => {
+    this.props.navigation.navigate("Questionnaire");
+  };
+
   render() {
     LayoutAnimation.easeInEaseOut();
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <Text style={{ fontSize: 32 }}>Hi {this.state.displayName}!</Text>
+        <TouchableOpacity style={{ marginTop: 32 }} onPress={this.editProfile}>
+          <Text>Edit Profile</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={{ marginTop: 32 }} onPress={this.signOutUser}>
           <Text>Logout</Text>
         </TouchableOpacity>

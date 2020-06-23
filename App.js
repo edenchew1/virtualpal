@@ -3,7 +3,6 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { Ionicons } from "@expo/vector-icons";
-
 import LoadingScreen from "./screens/LoadingScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -12,6 +11,16 @@ import ChatScreen from "./screens/ChatScreen";
 import QuestionnaireScreen from "./screens/QuestionnaireScreen";
 
 import * as firebase from "firebase";
+import { YellowBox } from "react-native";
+import _ from "lodash";
+
+YellowBox.ignoreWarnings(["Setting a timer"]);
+const _console = _.clone(console);
+console.warn = (message) => {
+  if (message.indexOf("Setting a timer") <= -1) {
+    _console.warn(message);
+  }
+}; //to ignore firebase bug
 
 var firebaseConfig = {
   apiKey: "AIzaSyBYAU4HtlWWSSB6ZXX6kcy8WTXsmtCT5HM",
@@ -42,14 +51,14 @@ const AppTabNavigator = createBottomTabNavigator(
         ),
       },
     },
-    Questionnaire: {
+    /*Questionnaire: {
       screen: QuestionnaireScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-chatboxes" size={24} color={tintColor} />
         ),
       },
-    },
+    }, */
   },
   {
     tabBarOptions: {
@@ -65,11 +74,15 @@ const AuthStack = createStackNavigator({
   Register: RegisterScreen,
 });
 
+const AppStack = createStackNavigator({
+  App: AppTabNavigator,
+  Questionnaire: QuestionnaireScreen,
+});
 export default createAppContainer(
   createSwitchNavigator(
     {
       Loading: LoadingScreen,
-      App: AppTabNavigator,
+      App: AppStack,
       Auth: AuthStack,
     },
     {

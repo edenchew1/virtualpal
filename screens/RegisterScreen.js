@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import * as firebase from "firebase";
+import firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons";
 import WavyHeader from "../components/WavyHeader";
 
