@@ -11,9 +11,9 @@ export default class ChatScreen extends React.Component {
     fire.firestore().collection("users").doc(id).set({
       name: firebase.auth().currentUser.displayName,
       uid: id,
-    });
-  };
-  render() {
+    }); 
+     }   
+    render() {
     return (
       <View style={styles.container}>
         <Text style={{ fontSize: 30 }}>Chat Screen</Text>
@@ -23,10 +23,8 @@ export default class ChatScreen extends React.Component {
           </Text>
         </TouchableOpacity>
       </View>
-    );
-  }
-}
-
+ );
+}}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

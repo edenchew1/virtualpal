@@ -11,7 +11,11 @@ import {
 import { Formik } from "formik";
 //import { OptionsButton } from 'react-native-options-button';
 import DropDownPicker from "react-native-dropdown-picker";
-import * as firebase from "firebase";
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import firebase from "firebase";
+
+const fire = require("firebase");
+require("firebase/firestore");
 
 export default class Questionnaire extends React.Component {
   state = {
@@ -21,7 +25,48 @@ export default class Questionnaire extends React.Component {
     religion: "no",
     pet: "no",
     intro: "introvert",
-  };
+    nickname: '',
+    petpeeve: '',
+    favplace: '',
+    best: '',
+    country: '',
+    badhabits: '',
+    favbook: '',
+    celebcrush: '',
+  }; 
+
+  submitQuestion = () => {
+    var id = firebase.auth().currentUser.uid;
+    fire.firestore().collection("questionnaire").add({
+      zodiac: this.state.zodiac,
+      hobby: this.state.hobby,
+      personality: this.state.personality,
+      religion: this.state.religion,
+      pet: this.state.pet,
+      intro: this.state.intro,
+      nickname: '',
+      petpeeve: '',
+      favplace: '',
+      best: '',
+      country: '',
+      badhabits: '',
+      favbook: '',
+      celebcrush: '',
+    });
+  }
+  
+//   submitQuestionnaire = () => {
+//     const firestore = firebase.firestore();
+//     firestore.collection('questionnaires').add({
+//         uid: firebase.auth().currentUser.uid
+//     }).then(() => {
+        
+//     }).catch((err) => {
+
+//     })
+//     console.log("testtesttest");
+// };
+
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -36,7 +81,18 @@ export default class Questionnaire extends React.Component {
             q7: "",
             q8: "",
           }}
-          onSubmit={(values) => {}}
+          onSubmit={(values) => 
+            this.setState ({
+              nickname: value.q1,
+              petpeeve: value.q2,
+              favplace: value.q3,
+              best: value.q4,
+              country: value.q5,
+              badhabits: value.q6,
+              favbook: value.q7,
+              celebcrush: value.q8,
+            })
+          }
         >
           {(props) => (
             <View>
@@ -189,8 +245,7 @@ export default class Questionnaire extends React.Component {
               <TextInput
                 style={styles.input}
                 placeholder="Type here"
-                onChangeText={props.handleChange("q1")}
-                value={props.values.q1}
+                onChangeText={(q1) => this.setState ({nickname:q1})}
               />
               <Text style={styles.question}>
                 What is your biggest pet peeve?
@@ -199,8 +254,7 @@ export default class Questionnaire extends React.Component {
                 style={styles.input}
                 maxLength={100}
                 placeholder="Describe in no more than 100 characters"
-                onChangeText={props.handleChange("q2")}
-                value={props.values.q2}
+                onChangeText={(q2) => this.setState ({petpeeve:q2})}
               />
               <Text style={styles.question}>
                 {" "}
@@ -210,8 +264,7 @@ export default class Questionnaire extends React.Component {
                 style={styles.input}
                 maxLength={100}
                 placeholder="eg. My bed"
-                onChangeText={props.handleChange("q3")}
-                value={props.values.q3}
+                onChangeText={(q3) => this.setState ({favplace:q3})}
               />
 
               <Text style={styles.question}> What are you best at?</Text>
@@ -219,8 +272,7 @@ export default class Questionnaire extends React.Component {
                 style={styles.input}
                 maxLength={100}
                 placeholder="Name one"
-                onChangeText={props.handleChange("q4")}
-                value={props.values.q4}
+                onChangeText={(q4) => this.setState ({best:q4})}
               />
 
               <Text style={styles.question}>
@@ -231,8 +283,7 @@ export default class Questionnaire extends React.Component {
                 style={styles.input}
                 maxLength={100}
                 placeholder="eg. North Korea"
-                onChangeText={props.handleChange("q5")}
-                value={props.values.q5}
+                onChangeText={(q5) => this.setState ({country:q5})}
               />
 
               <Text style={styles.question}>
@@ -244,8 +295,7 @@ export default class Questionnaire extends React.Component {
                 style={styles.input}
                 maxLength={200}
                 placeholder="Name at least 3"
-                onChangeText={props.handleChange("q6")}
-                value={props.values.q6}
+                onChangeText={(q6) => this.setState ({badhabits:q6})}
               />
               <Text style={styles.question}>
                 {" "}
@@ -255,21 +305,19 @@ export default class Questionnaire extends React.Component {
                 style={styles.input}
                 maxLength={200}
                 placeholder="eg. Parasite (2019)"
-                onChangeText={props.handleChange("q7")}
-                value={props.values.q7}
+                onChangeText={(q7) => this.setState ({favbook:q7})}
               />
               <Text style={styles.question}> Who is your celebrity crush?</Text>
               <TextInput
                 style={styles.input}
                 maxLength={100}
                 placeholder="Do not include yourself"
-                onChangeText={props.handleChange("q8")}
-                value={props.values.q8}
+                onChangeText={(q8) => this.setState ({celebcrush:q8})}
               />
               <Button
                 title="submit"
-                color="grey"
-                onPress={props.handleSubmit}
+                color="blue"
+                onPress={this.submitQuestion}
               />
             </View>
           )}
