@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "socialApp",
-    "slug": "socialApp",
+    "name": "virtualPal",
+    "slug": "virtualPal",
     "platforms": [
       "ios",
       "android",

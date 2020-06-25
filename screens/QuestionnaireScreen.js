@@ -6,12 +6,11 @@ import {
   TextInput,
   StatusBar,
   ScrollView,
-  Button,
 } from "react-native";
 import { Formik } from "formik";
-//import { OptionsButton } from 'react-native-options-button';
 import DropDownPicker from "react-native-dropdown-picker";
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { Button } from 'react-native-elements';
+import { RadioButton } from 'react-native-paper';
 import firebase from "firebase";
 
 const fire = require("firebase");
@@ -19,11 +18,13 @@ require("firebase/firestore");
 
 export default class Questionnaire extends React.Component {
   state = {
+    gender: 'male',
+    preference: 'male',
     zodiac: "aries",
     hobby: "watch films/drama",
     personality: "",
-    religion: "no",
-    pet: "no",
+    religion: "yes",
+    pet: "yes",
     intro: "introvert",
     nickname: '',
     petpeeve: '',
@@ -37,7 +38,10 @@ export default class Questionnaire extends React.Component {
 
   submitQuestion = () => {
     var id = firebase.auth().currentUser.uid;
-    fire.firestore().collection("questionnaire").add({
+    fire.firestore().collection("questionnaire").doc(id).set({
+      uid: id,
+      gender: this.state.gender,
+      preference: this.state.preference,
       zodiac: this.state.zodiac,
       hobby: this.state.hobby,
       personality: this.state.personality,
@@ -53,19 +57,8 @@ export default class Questionnaire extends React.Component {
       favbook: '',
       celebcrush: '',
     });
+    this.props.navigation.navigate('Home');
   }
-  
-//   submitQuestionnaire = () => {
-//     const firestore = firebase.firestore();
-//     firestore.collection('questionnaires').add({
-//         uid: firebase.auth().currentUser.uid
-//     }).then(() => {
-        
-//     }).catch((err) => {
-
-//     })
-//     console.log("testtesttest");
-// };
 
   render() {
     return (
@@ -81,7 +74,7 @@ export default class Questionnaire extends React.Component {
             q7: "",
             q8: "",
           }}
-          onSubmit={(values) => 
+          onSubmit={(value) => 
             this.setState ({
               nickname: value.q1,
               petpeeve: value.q2,
@@ -94,8 +87,25 @@ export default class Questionnaire extends React.Component {
             })
           }
         >
-          {(props) => (
+          {() => (
             <View>
+              <Text style={styles.question}>Are you a...</Text>
+              <RadioButton.Group
+                onValueChange={(value) => this.setState({ gender:value })}
+                value={this.state.gender}
+              >
+                  <RadioButton.Item label="Male" value="male" color="dodgerblue"/>
+                  <RadioButton.Item label="Female" value="female" color="dodgerblue"/>
+              </RadioButton.Group>
+              <Text style={styles.question}>Do you prefer your VirtualPal to be a...</Text>
+              <RadioButton.Group
+                onValueChange={(value) => this.setState({ preference:value })}
+                value={this.state.preference}
+              >
+                  <RadioButton.Item label="Male" value="male" color="dodgerblue"/>
+                  <RadioButton.Item label="Female" value="female" color="dodgerblue"/>
+                  <RadioButton.Item label="No Preference" value="no preference" color="dodgerblue"/>
+              </RadioButton.Group>
               <Text style={styles.question}>What is your Zodiac sign?</Text>
               <DropDownPicker
                 items={[
@@ -189,90 +199,81 @@ export default class Questionnaire extends React.Component {
               />
 
               <Text style={styles.question}>Are you a religious person?</Text>
-              <DropDownPicker
-                items={[
-                  { label: "Yes", value: "yes" },
-                  { label: "No", value: "no" },
-                ]}
-                defaultValue={this.state.religion}
-                containerStyle={{ height: 40 }}
-                style={{ backgroundColor: "#fafafa" }}
-                dropDownStyle={{ backgroundColor: "#fafafa" }}
-                onChangeItem={(item) =>
-                  this.setState({
-                    religion: item.value,
-                  })
-                }
-              />
-
+              <RadioButton.Group
+                onValueChange={(value) => this.setState({ religion:value })}
+                value={this.state.religion}
+              >
+                  <RadioButton.Item label="Yes" value="yes" color="dodgerblue"/>
+                  <RadioButton.Item label="No" value="no" color="dodgerblue"/>
+              </RadioButton.Group>
               <Text style={styles.question}>Do you own a pet?</Text>
-              <DropDownPicker
-                items={[
-                  { label: "Yes", value: "yes" },
-                  { label: "No", value: "no" },
-                ]}
-                defaultValue={this.state.pet}
-                containerStyle={{ height: 40 }}
-                style={{ backgroundColor: "#fafafa" }}
-                dropDownStyle={{ backgroundColor: "#fafafa" }}
-                onChangeItem={(item) =>
-                  this.setState({
-                    pet: item.value,
-                  })
-                }
-              />
+              <RadioButton.Group
+                onValueChange={(value) => this.setState({ pet:value })}
+                value={this.state.pet}
+              >
+                  <RadioButton.Item label="Yes" value="yes" color="dodgerblue"/>
+                  <RadioButton.Item label="No" value="no" color="dodgerblue"/>
+              </RadioButton.Group>
               <Text style={styles.question}>
                 Are you an introvert/extrovert?
               </Text>
-              <DropDownPicker
-                items={[
-                  { label: "Introvert", value: "introvert" },
-                  { label: "Extrovert", value: "extrovert" },
-                ]}
-                defaultValue={this.state.intro}
-                containerStyle={{ height: 40 }}
-                style={{ backgroundColor: "#fafafa" }}
-                dropDownStyle={{ backgroundColor: "#fafafa" }}
-                onChangeItem={(item) =>
-                  this.setState({
-                    intro: item.value,
-                  })
-                }
-              />
+              <RadioButton.Group
+                onValueChange={(value) => this.setState({ intro:value })}
+                value={this.state.intro}
+              >
+                  <RadioButton.Item label="Erm... Introvert" value="introvert" color="dodgerblue"/>
+                  <RadioButton.Item label="Definitely Extrovert!" value="extrovert" color="dodgerblue"/>
+                  <RadioButton.Item label="I'm not sure myself" value="not sure" color="dodgerblue"/>
+              </RadioButton.Group>
               <Text style={styles.question}>
                 What is your nickname in school?{" "}
               </Text>
               <TextInput
                 style={styles.input}
-                placeholder="Type here"
+                placeholder="Name one"
+                returnKeyType="next"
                 onChangeText={(q1) => this.setState ({nickname:q1})}
+                onSubmitEditing= {() => {this.secondTextInput.focus()}}
+                blurOnSubmit = {false}
               />
               <Text style={styles.question}>
                 What is your biggest pet peeve?
               </Text>
               <TextInput
+                ref={(input) => { this.secondTextInput = input; }}
                 style={styles.input}
                 maxLength={100}
                 placeholder="Describe in no more than 100 characters"
+                returnKeyType="next"
                 onChangeText={(q2) => this.setState ({petpeeve:q2})}
+                onSubmitEditing= {() => {this.thirdTextInput.focus()}}
+                blurOnSubmit = {false}
               />
               <Text style={styles.question}>
                 {" "}
                 Name your favorite place on Earth.
               </Text>
               <TextInput
+                ref={(input) => { this.thirdTextInput = input; }}
                 style={styles.input}
                 maxLength={100}
                 placeholder="eg. My bed"
+                returnKeyType="next"
                 onChangeText={(q3) => this.setState ({favplace:q3})}
+                onSubmitEditing= {() => {this.fourthTextInput.focus()}}
+                blurOnSubmit = {false}
               />
 
               <Text style={styles.question}> What are you best at?</Text>
               <TextInput
+                ref={(input) => { this.fourthTextInput = input; }}
                 style={styles.input}
                 maxLength={100}
                 placeholder="Name one"
+                returnKeyType="next"
                 onChangeText={(q4) => this.setState ({best:q4})}
+                onSubmitEditing= {() => {this.fifthTextInput.focus()}}
+                blurOnSubmit = {false}
               />
 
               <Text style={styles.question}>
@@ -280,10 +281,14 @@ export default class Questionnaire extends React.Component {
                 Which country do you want to travel to?
               </Text>
               <TextInput
+                ref={(input) => { this.fifthTextInput = input; }}
                 style={styles.input}
                 maxLength={100}
                 placeholder="eg. North Korea"
+                returnKeyType="next"
                 onChangeText={(q5) => this.setState ({country:q5})}
+                onSubmitEditing= {() => {this.sixthTextInput.focus()}}
+                blurOnSubmit = {false}
               />
 
               <Text style={styles.question}>
@@ -291,33 +296,43 @@ export default class Questionnaire extends React.Component {
                 What are some of your bad habits?
               </Text>
               <TextInput
-                multiline
+                ref={(input) => { this.sixthTextInput = input; }}
                 style={styles.input}
                 maxLength={200}
-                placeholder="Name at least 3"
+                placeholder="eg. bad habit #1, #2, #3"
+                returnKeyType="next"
                 onChangeText={(q6) => this.setState ({badhabits:q6})}
+                onSubmitEditing= {() => {this.seventhTextInput.focus()}}
+                blurOnSubmit = {false}
               />
               <Text style={styles.question}>
                 {" "}
                 Name 3 of your favorite movies/books.
               </Text>
               <TextInput
+                ref={(input) => { this.seventhTextInput = input; }}
                 style={styles.input}
                 maxLength={200}
-                placeholder="eg. Parasite (2019)"
+                placeholder="eg. book #1, movie #2, movie #3"
+                returnKeyType="next"
                 onChangeText={(q7) => this.setState ({favbook:q7})}
+                onSubmitEditing= {() => {this.eigthTextInput.focus()}}
+                blurOnSubmit = {false}
               />
               <Text style={styles.question}> Who is your celebrity crush?</Text>
               <TextInput
+                ref={(input) => { this.eigthTextInput = input; }}
                 style={styles.input}
                 maxLength={100}
-                placeholder="Do not include yourself"
+                placeholder="Note: Do not include yourself"
                 onChangeText={(q8) => this.setState ({celebcrush:q8})}
               />
+              <Text style={styles.question}>{" "}</Text>
               <Button
-                title="submit"
+                title="SUBMIT"
                 color="blue"
                 onPress={this.submitQuestion}
+
               />
             </View>
           )}

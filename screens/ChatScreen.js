@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Icon } from 'react-native-elements';
 import firebase from "firebase";
 
 const fire = require("firebase");
@@ -16,10 +17,10 @@ export default class ChatScreen extends React.Component {
     render() {
     return (
       <View style={styles.container}>
-        <Text style={{ fontSize: 30 }}>Chat Screen</Text>
+        <Text style={{ fontSize: 26, textAlign: "center" }}>Find your{'\n'}VirtualPal Partner</Text>
         <TouchableOpacity style={styles.button} onPress={this.addData}>
-          <Text style={{ color: "#FFF", fontWeight: "500", fontSize: 25 }}>
-            Find new pal
+          <Text style={{ color: "#FFF", fontWeight: "500", fontSize: 30 }}>
+            Here
           </Text>
         </TouchableOpacity>
       </View>
@@ -32,10 +33,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    marginHorizontal: 30,
+    marginHorizontal: 10,
     backgroundColor: "#3B5998",
     borderRadius: 4,
-    height: 52,
+    height: 45,
+    width: 90,
     alignItems: "center",
     justifyContent: "center",
   },
