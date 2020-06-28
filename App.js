@@ -9,6 +9,7 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ChatScreen from "./screens/ChatScreen";
 import QuestionnaireScreen from "./screens/QuestionnaireScreen";
+import MatchScreen from "./screens/MatchScreen";
 
 import * as firebase from "firebase";
 import { YellowBox } from "react-native";
@@ -51,14 +52,14 @@ const AppTabNavigator = createBottomTabNavigator(
         ),
       },
     },
-    /*Questionnaire: {
-      screen: QuestionnaireScreen,
+    Match: {
+      screen: MatchScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-chatboxes" size={24} color={tintColor} />
         ),
       },
-    }, */
+    },
   },
   {
     tabBarOptions: {
@@ -77,7 +78,9 @@ const AuthStack = createStackNavigator({
 const AppStack = createStackNavigator({
   App: AppTabNavigator,
   Questionnaire: QuestionnaireScreen,
+  Match: MatchScreen
 });
+
 export default createAppContainer(
   createSwitchNavigator(
     {

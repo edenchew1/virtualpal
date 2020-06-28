@@ -141,10 +141,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: '#F5FCFF',
   },
   button: {
     marginHorizontal: 10,
-    backgroundColor: "#3B5998",
+    backgroundColor: "dodgerblue",
     borderRadius: 4,
     height: 45,
     width: 90,
