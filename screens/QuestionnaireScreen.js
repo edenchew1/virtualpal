@@ -38,6 +38,7 @@ export default class Questionnaire extends React.Component {
 
   submitQuestion = () => {
     var id = firebase.auth().currentUser.uid;
+    var name = firebase.auth().currentUser.displayName;
     fire.firestore().collection("questionnaire").doc(id).set({
       uid: id,
       gender: this.state.gender,
@@ -56,6 +57,7 @@ export default class Questionnaire extends React.Component {
       badhabits: this.state.badhabits,
       favbook: this.state.favbook,
       celebcrush: this.state.celebcrush,
+      displayname: name,
     });
     this.props.navigation.navigate("Home");
   };
@@ -225,35 +227,19 @@ export default class Questionnaire extends React.Component {
                 onValueChange={(value) => this.setState({ religion: value })}
                 value={this.state.religion}
               >
-                <RadioButton.Item 
-                label="Yes" 
-                value="yes" 
-                color="dodgerblue" 
-                />
-                <RadioButton.Item 
-                label="No" 
-                value="no" 
-                color="dodgerblue" 
-                />
+                <RadioButton.Item label="Yes" value="yes" color="dodgerblue" />
+                <RadioButton.Item label="No" value="no" color="dodgerblue" />
               </RadioButton.Group>
-              
+
               <Text style={styles.question}>Do you own a pet?</Text>
               <RadioButton.Group
                 onValueChange={(value) => this.setState({ pet: value })}
                 value={this.state.pet}
               >
-                <RadioButton.Item 
-                label="Yes" 
-                value="yes" 
-                color="dodgerblue" 
-                />
-                <RadioButton.Item 
-                label="No" 
-                value="no" 
-                color="dodgerblue" 
-                />
+                <RadioButton.Item label="Yes" value="yes" color="dodgerblue" />
+                <RadioButton.Item label="No" value="no" color="dodgerblue" />
               </RadioButton.Group>
-              
+
               <Text style={styles.question}>
                 Are you an introvert/extrovert?
               </Text>
@@ -277,7 +263,7 @@ export default class Questionnaire extends React.Component {
                   color="dodgerblue"
                 />
               </RadioButton.Group>
-              
+
               <Text style={styles.question}>
                 What is your nickname in school?{" "}
               </Text>
@@ -432,7 +418,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   input: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "#ddd",
     padding: 10,
     fontSize: 18,

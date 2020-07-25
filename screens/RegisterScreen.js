@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ScrollView,
   View,
   Text,
   StyleSheet,
@@ -38,7 +39,7 @@ export default class RegisterScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <StatusBar barStyle="light-content" />
         <WavyHeader />
         <TouchableOpacity
@@ -102,7 +103,7 @@ export default class RegisterScreen extends React.Component {
             </Text>
           </Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     );
   }
 }

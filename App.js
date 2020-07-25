@@ -10,6 +10,8 @@ import RegisterScreen from "./screens/RegisterScreen";
 import ChatScreen from "./screens/ChatScreen";
 import QuestionnaireScreen from "./screens/QuestionnaireScreen";
 import MatchScreen from "./screens/MatchScreen";
+import ChatRoomScreen from "./screens/ChatRoomScreen";
+import YesScreen from "./screens/YesScreen";
 
 import * as firebase from "firebase";
 import { YellowBox } from "react-native";
@@ -39,6 +41,7 @@ const AppTabNavigator = createBottomTabNavigator(
     Home: {
       screen: HomeScreen,
       navigationOptions: {
+        header: null,
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-person" size={24} color={tintColor} />
         ),
@@ -47,14 +50,7 @@ const AppTabNavigator = createBottomTabNavigator(
     Chat: {
       screen: ChatScreen,
       navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-chatboxes" size={24} color={tintColor} />
-        ),
-      },
-    },
-    Match: {
-      screen: MatchScreen,
-      navigationOptions: {
+        headerTitle: "Chat",
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-chatboxes" size={24} color={tintColor} />
         ),
@@ -63,6 +59,8 @@ const AppTabNavigator = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
+      header: null,
+      headerMode: "none",
       activeTintColor: "#161F3D",
       inactiveTintColor: "#B8BBC4",
       showLabel: false,
@@ -70,15 +68,39 @@ const AppTabNavigator = createBottomTabNavigator(
   }
 );
 
-const AuthStack = createStackNavigator({
-  Login: LoginScreen,
-  Register: RegisterScreen,
-});
+const AuthStack = createStackNavigator(
+  {
+    Login: LoginScreen,
+    Register: RegisterScreen,
+  },
+  {
+    navigationOptions: {
+      header: null,
+      headerMode: "none",
+    },
+  }
+);
 
 const AppStack = createStackNavigator({
-  App: AppTabNavigator,
+  App: {
+    screen: AppTabNavigator,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
   Questionnaire: QuestionnaireScreen,
-  Match: MatchScreen
+  ChatRoom: {
+    screen: ChatRoomScreen,
+    navigationOptions: {
+      title: "Chat Room",
+    },
+  },
+  YesScreen: {
+    screen: YesScreen,
+    navigationOptions: {
+      title: "Revelation Form",
+    },
+  },
 });
 
 export default createAppContainer(
@@ -90,6 +112,10 @@ export default createAppContainer(
     },
     {
       initialRouteName: "Loading",
+      navigationOptions: {
+        header: null,
+        headerMode: "none",
+      },
     }
   )
 );
