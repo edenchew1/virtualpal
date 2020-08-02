@@ -123,13 +123,41 @@ export default class ChatScreen extends React.Component {
   };
   unMatch = () => {
     if (this._isMounted) {
-      this.setState({ revelation: false, matchRName: null });
+      this.setState({
+        chatID: null,
+
+        matchID: null,
+        matchName: null,
+        matchDate: null,
+        exist: false,
+        modalVisible: false,
+        taskTitle: null,
+        taskDetail: null,
+        startDate: null,
+        startMonth: null,
+        currDay: null,
+        shown: null,
+        header: null,
+        imageLink: null,
+        revelation: false,
+        yeschoice: false,
+        noreveal: false,
+        yesreveal: false,
+        mutual: false,
+        matchRName: null,
+        matchSchool: null,
+        matchCourse: null,
+        matchAge: null,
+        matchTele: null,
+        matchInsta: null,
+      });
     }
     var id = firebase.auth().currentUser.uid;
     var matchdb = fire.firestore().collection("match");
     var revelation = fire.firestore().collection("revelation");
     revelation.doc(id).delete();
     matchdb.doc(id).delete();
+    this.setState();
   };
   forceUnmatch = async () => {
     var id = firebase.auth().currentUser.uid;
@@ -520,7 +548,10 @@ export default class ChatScreen extends React.Component {
         "Your pal display name:  " + this.state.matchName
       );
     } else {
-      Alert.alert("Sorry no match found", "Try again later...");
+      Alert.alert(
+        "Sorry no match found",
+        "Once there's a match, they will be reflected on screen.."
+      );
     }
     component.forceUpdate(callback);
   };
@@ -746,10 +777,14 @@ export default class ChatScreen extends React.Component {
               <Text style={{ color: "#FFF" }}>NO</Text>
             </TouchableOpacity>
           </View>
-          <Text style={{ textAlign: "center" }}>
+          <Text style={{ textAlign: "center", color: "red" }}>
             {"\n"}
             Note: Mutual agreement is required
             {"\n"}for revelation to take place!
+          </Text>
+          <Text style={{ textAlign: "center", color: "green" }}>
+            If you have already filled the revelation form, {"\n"}your match
+            haven't made their decision yet{"\n"} Please be patient...
           </Text>
         </View>
       );

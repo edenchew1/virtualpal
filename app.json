@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "virtualPal",
-    "slug": "virtualPal",
+    "slug": "virtualpal",
     "platforms": [
       "ios",
       "android",
@@ -23,6 +23,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "",
+    "githubUrl": "https://github.com/edenchew1/virtualpal"
   }
 }
